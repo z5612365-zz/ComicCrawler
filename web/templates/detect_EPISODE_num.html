@@ -1,0 +1,21 @@
+<div class="col" id="box">
+    <label for="usr">EPISODE:</label>
+
+
+    <fieldset>
+        <legend>Choose some monster features</legend>
+
+
+        {% for result in result_list %}
+            <div>
+                <input type="checkbox" id="{{ result }}" name="feature" value="{{ result }}" checked/>
+                <label for="scales"> {{ result }} </label>
+            </div>
+        {% endfor %}
+
+
+
+    </fieldset>
+
+
+</div>
