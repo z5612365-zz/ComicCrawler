@@ -5,6 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import time
+import json
 
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 app = Flask(__name__)
@@ -17,37 +18,24 @@ def detect_EPISODE_num():
     r = requests.get(url)
     r.encoding = 'big5'
 
+    #search table
     soup = BeautifulSoup(r.text, 'html.parser')
-
-
-    #str = soup.find_all('table').prettify()
     result = soup.find_all('table', attrs={"width":800})
-    #logging.debug(str)
-    #logging.debug(type(result) )
-
     result_list = []
-    #for x in result:
-    #    result_list.append(str(x))
-
     result_list.append(str(result[1]))
     r2=''.join(result_list)
-#=========================
 
+    #search somthing has <a> tag and href, and that's our EPISODE num
     soup2 = BeautifulSoup(r2, 'html.parser')
     result2=soup2.find_all('a', href=True)
-
 
     result_list2 = []
     for x in result2:
         result_list2.append(str(x.getText()))
-        #result_list2.append('<br>')
 
-
-
-
-    #return ''.join(result_list2)
-
-    return render_template('detect_EPISODE_num.html', result_list=result_list2)
+    #return render_template('detect_EPISODE_num.html', result_list=result_list2)
+    json_str = json.dumps(result_list2, ensure_ascii=False).encode('utf8')
+    return json_str
 
 
 @app.route("/api/get_EPISODE_head_img", methods=['GET', 'POST'])
@@ -55,12 +43,10 @@ def get_EPISODE_img():
 
     url = "https://www.cartoonmad.com/comic/122100002035001.html"
 
-
     r = requests.get(url)
     r.encoding = 'big5'
 
     soup = BeautifulSoup(r.text, 'html.parser')
-
     images = soup.find_all('img', attrs={"oncontextmenu":'return false'})
 
     result_list = []
@@ -69,7 +55,10 @@ def get_EPISODE_img():
         print( image['src'] )
 
         result_list.append(image['src'])
-    return render_template('get_EPISODE_head_img.html', result_list=result_list)
+
+    json_str = json.dumps(result_list)
+    #return render_template('get_EPISODE_head_img.html', result_list=json_str)
+    return json_str
 
 
 #from_EPISODE = '1',end_EPISODE = '2'
