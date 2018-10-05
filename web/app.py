@@ -79,9 +79,10 @@ def download():
     FilenameExtension=".jpg"
     imgUrl = "http://web1.cartoonmad.com/c37sn562e81/1221/" + EPISODE + "/" + img_string + FilenameExtension
 
-    download_util(url=imgUrl, epi_folder=EPISODE, idx=img_string, FilenameExtension=FilenameExtension)
+    Msg=download_util(url=imgUrl, epi_folder=EPISODE, idx=img_string, FilenameExtension=FilenameExtension)
 
-    return render_template('download.html')
+    #return render_template('download.html')
+    return Msg
 
 
 """
@@ -121,18 +122,31 @@ def download_util(url, epi_folder, idx, FilenameExtension):
         myPath = os.path.abspath('./img/' + epi_folder)
         fullfilename = os.path.join(myPath, idx)
         fullfilename+=FilenameExtension
-
+        #url="S"
         #logging.debug("FFF: ",fullfilename)
-        response = requests.get(url, stream=True)
+
+        #================================================================= todo Connection problem
+        headers = {
+            'Connection': 'close',
+        }
+
+        response = requests.get(url, stream=True, headers=headers)
+
+        #=================================================================
+
         with open(fullfilename, 'wb') as out_file:
             shutil.copyfileobj(response.raw, out_file)
 
+        return url+"download ok!\n"+"To "+fullfilename
 
         #urllib.request.urlretrieve(url, fullfilename)
     except Exception as e:
-        logging.debug("Exception: ", e, " at ", url)
+        errMsg="Exception: " + str(e) + " at " + url
+        logging.debug(errMsg)
         global running
         running = False
+
+        return errMsg
 
 # have bug when return str
 # TypeError: can only concatenate str (not "NoneType") to str
@@ -151,4 +165,5 @@ def fix_int_to_string(x):
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
+
     app.run(debug=True,host='0.0.0.0')
