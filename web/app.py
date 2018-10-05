@@ -2,6 +2,7 @@
 
 import logging
 import requests
+import shutil
 from bs4 import BeautifulSoup
 import os
 import time
@@ -61,13 +62,27 @@ def get_EPISODE_img():
     return json_str
 
 
-#from_EPISODE = '1',end_EPISODE = '2'
+#from_EPISODE = '1',end_EPISODE = '2'from_EPISODE
+'''
 @app.route("/api/download/<imgUrl>/<from_EPISODE>/<end_EPISODE>", methods=['GET', 'POST'])
 def download(imgUrl, from_EPISODE, end_EPISODE):
 
     download_util(url=imgUrl, epi_folder=EPISODE, idx=img_string)
 
     return render_template('download.html')
+'''
+
+@app.route("/api/download", methods=['GET', 'POST'])
+def download():
+    EPISODE='001'
+    img_string='001'
+    FilenameExtension=".jpg"
+    imgUrl = "http://web1.cartoonmad.com/c37sn562e81/1221/" + EPISODE + "/" + img_string + FilenameExtension
+
+    download_util(url=imgUrl, epi_folder=EPISODE, idx=img_string, FilenameExtension=FilenameExtension)
+
+    return render_template('download.html')
+
 
 """
     for EPISODE_int in range(int(from_EPISODE), int(end_EPISODE) + 1):
@@ -99,15 +114,23 @@ def one_to_infinity():
         yield i
         i += 1
 
-def download_util(url, epi_folder, idx):
+def download_util(url, epi_folder, idx, FilenameExtension):
     try:
         if not os.path.exists('./img/' + epi_folder):
             os.makedirs('./img/' + epi_folder)
         myPath = os.path.abspath('./img/' + epi_folder)
         fullfilename = os.path.join(myPath, idx)
-        urllib.request.urlretrieve(url, fullfilename)
+        fullfilename+=FilenameExtension
+
+        #logging.debug("FFF: ",fullfilename)
+        response = requests.get(url, stream=True)
+        with open(fullfilename, 'wb') as out_file:
+            shutil.copyfileobj(response.raw, out_file)
+
+
+        #urllib.request.urlretrieve(url, fullfilename)
     except Exception as e:
-        print("Exception: ", e, " at ", url)
+        logging.debug("Exception: ", e, " at ", url)
         global running
         running = False
 
