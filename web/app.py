@@ -127,15 +127,17 @@ def download_util(url, epi_folder, idx, FilenameExtension):
 
         #================================================================= todo Connection problem
         headers = {
-            'Connection': 'close',
+            'Connection': 'close'
         }
 
-        response = requests.get(url, stream=True, headers=headers)
-
+        #response = requests.get(url, stream=True, headers=headers)
+        #response = requests.get(url, headers=headers)
+        #response = requests.get(url, stream=True)
         #=================================================================
 
-        with open(fullfilename, 'wb') as out_file:
-            shutil.copyfileobj(response.raw, out_file)
+        with requests.get(url, stream=True) as response:
+            with open(fullfilename, 'wb') as out_file:
+                shutil.copyfileobj(response.raw, out_file)
 
         return url+"download ok!\n"+"To "+fullfilename
 
