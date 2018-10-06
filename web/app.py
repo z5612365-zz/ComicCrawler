@@ -8,37 +8,69 @@ import os
 import time
 import json
 
+from utils import *
+
+
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 app = Flask(__name__)
 
 
 # ------------------------------------------ api ------------------------------------------
-@app.route("/api/detect_EPISODE_num", methods=['GET', 'POST'])
+#post url:https://www.cartoonmad.com/comic/1221.html to 192.168.99.100:5000/api/detect_EPISODE_num
+@app.route("/api/detect_EPISODE_num", methods=['POST'])
 def detect_EPISODE_num():
-    url="https://www.cartoonmad.com/comic/1221.html"
-    r = requests.get(url)
-    r.encoding = 'big5'
 
-    #search table
-    soup = BeautifulSoup(r.text, 'html.parser')
-    result = soup.find_all('table', attrs={"width":800})
-    result_list = []
-    result_list.append(str(result[1]))
-    r2=''.join(result_list)
+    if request.method == 'POST':
+        url=request.form.get('url')
 
-    #search somthing has <a> tag and href, and that's our EPISODE num
-    soup2 = BeautifulSoup(r2, 'html.parser')
-    result2=soup2.find_all('a', href=True)
+        r = requests.get(url)
+        r.encoding = 'big5'
 
-    result_list2 = []
-    for x in result2:
-        result_list2.append(str(x.getText()))
+        #search table
+        soup = BeautifulSoup(r.text, 'html.parser')
+        result = soup.find_all('table', attrs={"width":800})
+        result_list = []
+        result_list.append(str(result[1]))
+        r2=''.join(result_list)
 
-    #return render_template('detect_EPISODE_num.html', result_list=result_list2)
-    json_str = json.dumps(result_list2, ensure_ascii=False).encode('utf8')
-    return json_str
+        #search somthing has <a> tag and href, and that's our EPISODE num
+        soup2 = BeautifulSoup(r2, 'html.parser')
+        result2=soup2.find_all('a', href=True)
+
+        result_list2 = []
+        for x in result2:
+            result_list2.append( {str(x.getText()):x['href'] }  )
+
+        #return render_template('detect_EPISODE_num.html', result_list=result_list2)
+        json_str = json.dumps(result_list2, ensure_ascii=False).encode('utf8')
+        return json_str
+
+#post url:https://www.cartoonmad.com/comic/122100002035001.html to 192.168.99.100:5000/api/get_EPISODE_head_img
+@app.route("/api/get_EPISODE_head_img", methods=['POST'])
+def get_EPISODE_img():
+
+    if request.method == 'POST':
+        url=request.form.get('url')
+
+        r = requests.get(url)
+        r.encoding = 'big5'
+
+        soup = BeautifulSoup(r.text, 'html.parser')
+        images = soup.find_all('img', attrs={"oncontextmenu":'return false'})
+
+        result_list = []
+        for image in images:
+            #print image source
+            print( image['src'] )
+
+            result_list.append(image['src'])
+
+        json_str = json.dumps(result_list)
+        #return render_template('get_EPISODE_head_img.html', result_list=json_str)
+        return json_str
 
 
+"""
 @app.route("/api/get_EPISODE_head_img", methods=['GET', 'POST'])
 def get_EPISODE_img():
 
@@ -61,6 +93,7 @@ def get_EPISODE_img():
     #return render_template('get_EPISODE_head_img.html', result_list=json_str)
     return json_str
 
+"""
 
 #from_EPISODE = '1',end_EPISODE = '2'from_EPISODE
 '''
@@ -114,41 +147,6 @@ def one_to_infinity():
     while True:
         yield i
         i += 1
-
-def download_util(url, epi_folder, idx, FilenameExtension):
-    try:
-        if not os.path.exists('./img/' + epi_folder):
-            os.makedirs('./img/' + epi_folder)
-        myPath = os.path.abspath('./img/' + epi_folder)
-        fullfilename = os.path.join(myPath, idx)
-        fullfilename+=FilenameExtension
-        #url="S"
-        #logging.debug("FFF: ",fullfilename)
-
-        #================================================================= todo Connection problem
-        headers = {
-            'Connection': 'close'
-        }
-
-        #response = requests.get(url, stream=True, headers=headers)
-        #response = requests.get(url, headers=headers)
-        #response = requests.get(url, stream=True)
-        #=================================================================
-
-        with requests.get(url, stream=True) as response:
-            with open(fullfilename, 'wb') as out_file:
-                shutil.copyfileobj(response.raw, out_file)
-
-        return url+"download ok!\n"+"To "+fullfilename
-
-        #urllib.request.urlretrieve(url, fullfilename)
-    except Exception as e:
-        errMsg="Exception: " + str(e) + " at " + url
-        logging.debug(errMsg)
-        global running
-        running = False
-
-        return errMsg
 
 # have bug when return str
 # TypeError: can only concatenate str (not "NoneType") to str
