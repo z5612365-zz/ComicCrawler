@@ -174,6 +174,15 @@ def fix_int_to_string(x):
 
 #===========================================
 
+# ------------------------------------------ page ------------------------------------------
+
+@app.route("/", methods=['GET', 'POST'])
+def index():
+
+
+
+    return render_template('index.html')
+
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
