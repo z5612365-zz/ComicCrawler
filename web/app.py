@@ -16,7 +16,13 @@ app = Flask(__name__)
 
 
 # ------------------------------------------ api ------------------------------------------
-#post url:https://www.cartoonmad.com/comic/1221.html to 192.168.99.100:5000/api/detect_EPISODE_num
+'''
+post content:
+url:https://www.cartoonmad.com/comic/1221.html
+
+api url:
+192.168.99.100:5000/api/detect_EPISODE_num
+'''
 @app.route("/api/detect_EPISODE_num", methods=['POST'])
 def detect_EPISODE_num():
 
@@ -44,8 +50,13 @@ def detect_EPISODE_num():
         #return render_template('detect_EPISODE_num.html', result_list=result_list2)
         json_str = json.dumps(result_list2, ensure_ascii=False).encode('utf8')
         return json_str
+'''
+post content:
+url:https://www.cartoonmad.com/comic/122100002035001.html
 
-#post url:https://www.cartoonmad.com/comic/122100002035001.html to 192.168.99.100:5000/api/get_EPISODE_head_img
+api url:
+192.168.99.100:5000/api/get_EPISODE_head_img
+'''
 @app.route("/api/get_EPISODE_head_img", methods=['POST'])
 def get_EPISODE_img():
 
@@ -162,6 +173,7 @@ def fix_int_to_string(x):
 
 
 #===========================================
+
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
