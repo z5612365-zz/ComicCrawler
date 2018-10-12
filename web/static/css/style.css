@@ -61,9 +61,16 @@ span {
 }
 
 #sidebar {
+    height: 100%; /* Full-height: remove this if you want "auto" height */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+
+
+
     min-width: 250px;
     max-width: 250px;
-    background: #7386D5;
+    background: #333333;
     color: #fff;
     transition: all 0.3s;
 }
@@ -115,7 +122,7 @@ span {
 
 #sidebar .sidebar-header {
     padding: 20px;
-    background: #6d7fcc;
+    background: #1d73c2;
 }
 
 #sidebar .sidebar-header strong {
@@ -146,7 +153,7 @@ span {
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
     color: #fff;
-    background: #6d7fcc;
+    background: #111111;
 }
 
 a[data-toggle="collapse"] {
@@ -164,7 +171,7 @@ a[data-toggle="collapse"] {
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: #6d7fcc;
+    background: #222222;
 }
 
 ul.CTAs {
@@ -195,12 +202,16 @@ a.article:hover {
 ----------------------------------------------------- */
 
 #content {
+    margin-left: 250px; /* Same as the width of the sidebar */
     width: 100%;
     padding: 20px;
     min-height: 100vh;
     transition: all 0.3s;
 }
+#content.active {
+    margin-left: 80px; /* Same as the width of the sidebar */
 
+}
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */

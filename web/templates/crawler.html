@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block title %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+
+
+<div class="col">
+    <div class="form-group">
+        <label for="usr">URL:</label>
+        <input type="text" class="form-control" id="usr" placeholder="https://www.cartoonmad.com/comic/1221.html">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Detect</button>
+    </div>
+</div>
+
+<div class="col" id="box">
+    <label for="usr">EPISODE:</label>
+
+
+    <fieldset>
+        <legend>Choose some monster features</legend>
+
+        <div>
+            <input type="checkbox" id="scales" name="feature"
+                   value="scales" checked/>
+            <label for="scales">Scales</label>
+        </div>
+
+        <div>
+            <input type="checkbox" id="horns" name="feature"
+                   value="horns"/>
+            <label for="horns">Horns</label>
+        </div>
+
+        <div>
+            <input type="checkbox" id="claws" name="feature"
+                   value="claws"/>
+            <label for="claws">Claws</label>
+        </div>
+
+    </fieldset>
+
+
+</div>
+
+<div class="col">
+    <label>DNS代理IP:</label>
+    <div class="selected-item">
+        <p>Choose delay time (second): </p>
+    </div>
+
+    <select name="" id="cusSelectbox">
+        <option value="Select">Select</option>
+        {%if delay_time%}
+        {%for delay_time_idx in delay_time%}
+        <option value="{{delay_time_idx}}">{{delay_time_idx}}</option>
+        {%endfor%}
+        {%endif%}
+
+    </select>
+
+
+
+
+</div>
+
+
+<link rel="stylesheet" href="static/css/dropdown.css">
+<script src="static/js/index.js"></script>
+
+
+{% endblock %}

@@ -183,6 +183,20 @@ def index():
 
     return render_template('index.html')
 
+@app.route('/crawler')
+def crawler():
+    #EPISODE_num = requests.post(url=EPISODE_num_url)
+
+
+    delay_time = list(range(1, 10))
+    #return render_template('index.html', delay_time=delay_time,EPISODE_num=EPISODE_num.data)
+    return render_template('crawler.html', delay_time=delay_time)
+
+@app.route('/books')
+def books():
+
+    return render_template('books.html')
+
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)

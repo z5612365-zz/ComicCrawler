@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block title %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+
+
+<div id="magazine">
+    <div><img src="static/resource/2.jpg" style="width: 100%; height: 100%;"></div>
+    <div><img src="static/resource/3.jpg" style="width: 100%; height: 100%;"></div>
+    <div><img src="static/resource/4.jpg" style="width: 100%; height: 100%;"></div>
+    <div><img src="static/resource/5.jpg" style="width: 100%; height: 100%;"></div>
+
+
+</div>
+
+
+<!-- Samples-->
+	<div class="samples">
+		<div class="bar">
+			<div class="share">
+				<i class="icon table-contents" title="Table of contents"></i>
+				<i class="icon zoom-in" title="Zoom in"></i>
+				<i class="icon share-facebook" title="Share on facebook"></i>
+				<i class="icon share-twitter" title="Share on Twitter"></i>
+				<i class="icon share-plus" title="Share on G+"></i>
+				<i class="icon share-pinterest" title="Share on Pinterest"></i>
+			</div>
+			<a class="icon quit"></a>
+		</div>
+		<div id="book-wrapper">
+			<div id="book-zoom"></div>
+		</div>
+		<div id="slider-bar" class="turnjs-slider">
+			<div id="slider"></div>
+		</div>
+
+	</div>
+
+<!-- End samples -->
+
+
+<!-- turn.js -->
+<link rel="stylesheet" href="static/css/magazine.css">
+
+
+<script src="static/lib/hash.js"></script>
+<script src="static/lib/scissor.min.js"></script>
+<script src="static/lib/turn.html4.min.js"></script>
+<script src="static/lib/turn.min.js"></script>
+<script src="static/lib/zoom.min.js"></script>
+
+
+<script>
+$('#magazine').turn({
+gradients: true, acceleration: true
+});
+
+
+
+</script>
+
+
+{% endblock %}

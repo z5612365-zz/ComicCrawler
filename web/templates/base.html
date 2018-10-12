@@ -8,6 +8,12 @@
     <title>{% block title %}Comic Crawler{% endblock %}</title>
 
 
+    <!-- Bootstrap core CSS -->
+    <!--
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+-->
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
           integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -15,22 +21,11 @@
     <link rel="stylesheet" href="static/css/style.css">
 
     <!-- Font Awesome JS -->
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
-            integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
-            crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
-            integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
-            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 
-
-    {% endblock %}
-</head>
-<body>
-<div id="content">{% block content %}
-
-
-        <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
             crossorigin="anonymous"></script>
@@ -43,22 +38,118 @@
             integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
             crossorigin="anonymous"></script>
 
+    {% endblock %}
+</head>
+<body>
 
-    <script>
+<div class="wrapper">
+    <!-- Sidebar  -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h3>Comic Crawler</h3>
+            <strong>CC</strong>
+        </div>
+
+        <ul class="list-unstyled components">
+            <li>
+                <a href="crawler">
+                    <i class="fas fa-arrow-alt-circle-down"></i>
+                    Crawler
+                </a>
+
+                <a href="books">
+                    <i class="fas fa-book-open"></i>
+                    Books
+                </a>
+
+                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <i class="fas fa-chart-bar"></i>
+                    Analytics
+                </a>
+                <ul class="collapse list-unstyled" id="pageSubmenu">
+                    <li>
+                        <a href="#">Traffic</a>
+                    </li>
+                    <li>
+                        <a href="#">Size</a>
+                    </li>
+
+                </ul>
+                <a href="#">
+                    <i class="fab fa-readme"></i>
+                    About
+                </a>
+            </li>
+        </ul>
+
+    </nav>
+
+    <!-- Page Content  -->
+    <div id="content">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+
+                <button type="button" id="sidebarCollapse" class="btn btn-info">
+                    <i class="fas fa-align-justify"></i>
+                </button>
+
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Page</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Page</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Page</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Page</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+        </nav>
+
+        {% block content %}{% endblock %}
+
+
+        <div id="footer">
+            {% block footer %}
+            &copy; Copyright 2008 by <a href="http://domain.invalid/">you</a>.
+            {% endblock %}
+        </div>
+
+
+
+    </div>
+
+
+</div>
+
+
+<script>
     $(document).ready(function () {
 
-    $('#sidebarCollapse').on('click', function () {
-        $('#sidebar').toggleClass('active');
-    });
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+            $('#content').toggleClass('active');
+        });
 
     });
 
-    </script>
 
-    {% endblock %}</div>
-<div id="footer">
-    {% block footer %}
-    &copy; Copyright 2008 by <a href="http://domain.invalid/">you</a>.
-    {% endblock %}
-</div>
+
+
+
+
+
+</script>
+
+
 </body>
